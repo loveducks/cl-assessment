@@ -1,1 +1,2 @@
-# cl-assessment
+npm i
+npm start
