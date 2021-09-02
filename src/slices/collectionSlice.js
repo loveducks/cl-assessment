@@ -20,7 +20,8 @@ export const initialState = {
 	},
 	page: 1,
 	totalPages: 1,
-	apiSwitch: false
+	apiSwitch: false,
+	isFav: false
 }
 
 const collectionSlice = createSlice({
@@ -91,6 +92,12 @@ const collectionSlice = createSlice({
 			state.filters = payload.filters
 
 			return state
+		},
+		onTabChange: (state, {payload}) => {
+			console.log(payload)
+			state.isFav = payload
+
+			return state
 		}
 	},
 	extraReducers: {}
@@ -104,7 +111,8 @@ export const {
 	onSearchFetched,
 	onSearchReject,
 	onClearFilters,
-	onUpdateFilters
+	onUpdateFilters,
+	onTabChange
 } = collectionSlice.actions
 
 export const collectionsSelector = state => state.collection
@@ -157,6 +165,10 @@ export function clearFilters() {
 
 export function updateFilters(filters) {
 	return dispatch => dispatch(onUpdateFilters({filters}))
+}
+
+export function changeTabs(tab) {
+	return dispatch => dispatch(onTabChange(tab))
 }
 
 export default collectionSlice

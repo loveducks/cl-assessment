@@ -34,3 +34,15 @@ export const CloseBtn = styled.div`
 	background: white;
 	z-index: 999;
 `
+export const FavIcon = styled.span`
+	// margin: 5px;
+	font-size: 30px;
+	color: ${props => props.active ? '#fd5270': 'white'};
+	position: absolute;
+	left: 20;
+	top: 20;
+`
+
+export const ImgWrapper = styled.div`
+	position: relative;
+`

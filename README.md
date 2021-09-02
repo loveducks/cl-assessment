@@ -10,3 +10,14 @@ REACT_APP_BASE_URL=https://api.unsplash.com/
 
 npm i
 npm start
+
+
+//TODO
+
+add favorites tab 
+images should have a fav icon
+user can see fav images on the page even after reload
+users can fav and unfave an image
+
+adding functionality
+doing the styling later

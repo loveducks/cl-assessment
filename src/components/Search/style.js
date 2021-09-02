@@ -2,7 +2,6 @@ import styled from "styled-components"
 
 export const SearchWrapper = styled.div`
 	position: relative;
-	margin-top: 140px;
 `
 export const SearchBar = styled.input`
 	height: 52px;

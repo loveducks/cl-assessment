@@ -1,13 +1,23 @@
-import React, {useEffect, useState} from "react"
+import React, { useEffect, useState } from "react"
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 // styles
-import {ThumbNail, ThumbWrapper, ImgFull, CloseBtn} from "./style"
+import { ThumbNail, ThumbWrapper, ImgFull, CloseBtn, FavIcon, ImgWrapper } from "./style"
 
-const Thumb = ({urls, height, width}) => {
+const Thumb = ({ urls, height, width }) => {
 	const [isOpen, setIsOpen] = useState(false)
 	const [adjustedHeight, setAdjustedHeight] = useState(500)
 	const [adjustedWidth, setAdjustedWidth] = useState(500)
+	const [active, setActive] = useState(false)
+
+	useEffect(() => {
+		const urlList = localStorage.getItem('favorites')
+		if(urlList)
+			JSON.parse(urlList).map( data => {
+				if(data.urls.regular === urls.regular)
+					setActive(true)
+			})
+	}, [])
 
 	const ratio = width / height
 
@@ -53,9 +63,43 @@ const Thumb = ({urls, height, width}) => {
 		}
 	}
 
+	const updateFavorites = (isActive) => {
+		//check urls match
+		//make it active/inactive based on that
+		// eliminate duplicates
+		let urlList = localStorage.getItem('favorites')
+
+		setActive(isActive)
+		if(!urlList) {
+			localStorage.setItem('favorites', JSON.stringify([]))
+			urlList = localStorage.getItem('favorites')
+		}
+
+		if(isActive){
+
+			const newData = {
+				urls,
+				width,
+				height
+			}
+
+			localStorage.setItem('favorites', JSON.stringify([newData, ...JSON.parse(urlList)]))
+		} else {
+			const newUrls = JSON.parse(urlList).filter( data => data.urls.regular !== urls.regular)
+			console.log(newUrls)
+			localStorage.setItem('favorites', JSON.stringify(newUrls))
+		}
+
+	}
+
 	return (
 		<ThumbWrapper className='col-md-4 col-lg-2 col-sm-6 col-6 d-flex justify-content-center'>
-			<ThumbNail src={urls.thumb} onClick={_toggle} />
+			<ImgWrapper>
+				<FavIcon onClick={() => updateFavorites(!active)}  active={active}>
+					<i className="fa fa-gratipay"></i>
+				</FavIcon>
+				<ThumbNail src={urls.thumb} onClick={_toggle} />
+			</ImgWrapper>
 			<Modal
 				isOpen={isOpen}
 				onRequestClose={_toggle}
